@@ -17,6 +17,8 @@
 9. [Clean-room extraction plan](migration/01-clean-room-extraction-plan.md)
 10. [Migration classification matrix](migration/02-migration-classification.md)
 11. [Phased roadmap](roadmap/01-phased-roadmap.md)
+12. [Implementation blueprint](implementation/01-implementation-blueprint.md)
+13. [Harness contract catalog](implementation/02-harness-contract-catalog.md)
 
 ## Decision status
 
