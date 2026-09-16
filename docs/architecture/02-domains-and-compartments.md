@@ -67,13 +67,13 @@ See [Adaptive domains and generative dashboards](04-adaptive-domains-and-generat
 | Knowledge Matrix | User-owned facts, sources, notes, artifacts, entities, claims, and relationships | documents, wiki pages, citations, entities, project knowledge |
 | Reflect Compartment | Explicit alignment and review checkpoints | weekly review, goal alignment, memory corrections, graph proposals, module and dashboard proposals, policy review |
 
-## Brain Wiki and Knowledge Matrix
+## Second-Brain Wiki and Knowledge Matrix
 
-The J5 Wiki is the human-readable interface to the Knowledge Matrix. It provides pages, links, backlinks, revisions, search, graph views, and correction tools. It is not a separate silo.
+The second-brain wiki is the human-readable interface to the Knowledge Matrix. It provides pages, links, backlinks, revisions, search, graph views, and correction tools. It is not a separate silo.
 
 The Knowledge Matrix remains authoritative for sources, entities, claims, relationships, provenance, visibility, retention, and approval state. Life modules may add ontology extensions, templates, and views, but all underlying knowledge remains subject to workspace and compartment policy.
 
-See [Brain Wiki and agentic knowledge graph](03-brain-wiki-and-agentic-knowledge-graph.md).
+See [Second-brain wiki and agentic knowledge graph](03-brain-wiki-and-agentic-knowledge-graph.md).
 
 ## Reflection distinction
 
