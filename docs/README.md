@@ -10,10 +10,11 @@
 2. [Public product definition](foundation/02-public-product-definition.md)
 3. [Target architecture](architecture/01-target-architecture.md)
 4. [Domains and compartments](architecture/02-domains-and-compartments.md)
-5. [Privacy and tenant isolation](security/01-privacy-and-tenant-isolation.md)
-6. [Clean-room extraction plan](migration/01-clean-room-extraction-plan.md)
-7. [Migration classification matrix](migration/02-migration-classification.md)
-8. [Phased roadmap](roadmap/01-phased-roadmap.md)
+5. [Brain Wiki and agentic knowledge graph](architecture/03-brain-wiki-and-agentic-knowledge-graph.md)
+6. [Privacy and tenant isolation](security/01-privacy-and-tenant-isolation.md)
+7. [Clean-room extraction plan](migration/01-clean-room-extraction-plan.md)
+8. [Migration classification matrix](migration/02-migration-classification.md)
+9. [Phased roadmap](roadmap/01-phased-roadmap.md)
 
 ## Decision status
 
@@ -24,6 +25,8 @@
 - Treat J1-J4 as configurable domain containers rather than permanent personal meanings.
 - Make compartments first-class and user-owned.
 - Use one canonical runtime path for chat, voice, automations, and device commands.
+- Implement the J5 Wiki as the human-readable surface over the governed Knowledge Matrix.
+- Use provenance-aware knowledge claims and hybrid text, vector, and graph retrieval.
 - Scope all durable records by tenant/workspace and user.
 - Separate product entitlements from provider usage and model costs.
 
@@ -35,6 +38,7 @@
 - Whether family/shared workspaces ship in the MVP.
 - Final pricing and sponsored-access rules.
 - Which device surfaces ship after web and mobile.
+- Whether and when measured graph traversal needs justify a native graph-database projection.
 
 ## Documentation rule
 
