@@ -1,0 +1,28 @@
+{
+  "name": "@j5/harness-core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "pnpm --filter @j5/contracts build && tsc -p tsconfig.json",
+    "test": "pnpm --filter @j5/contracts build && pnpm --filter @j5/test-kit build && vitest run",
+    "typecheck": "pnpm --filter @j5/contracts build && tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@j5/contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "@j5/test-kit": "workspace:*",
+    "typescript": "5.9.3",
+    "vitest": "3.2.6"
+  }
+}
