@@ -2,7 +2,7 @@
 
 ## Decision
 
-The public J5 brain will use a human-readable wiki backed by a governed Knowledge Matrix and a permission-aware knowledge graph.
+The J5 harness will provide a human-readable wiki backed by a governed Knowledge Matrix and a permission-aware knowledge graph.
 
 These are related layers, not interchangeable names:
 
@@ -12,7 +12,7 @@ These are related layers, not interchangeable names:
 4. **Hybrid retrieval** combines text, vector, metadata, and graph traversal to supply cited context to J5.
 5. **Reflect Compartment** exposes uncertain, disputed, or consequential proposed changes for user review.
 
-The graph is not a second J5 orchestrator. J5 remains the only top-level assistant and invokes graph workflows as governed capabilities.
+The graph is not an orchestrator or a second harness. J5 remains the top-level runtime boundary and invokes graph workflows as governed capabilities; its user-facing assistant surface performs final synthesis.
 
 ## Research basis
 
