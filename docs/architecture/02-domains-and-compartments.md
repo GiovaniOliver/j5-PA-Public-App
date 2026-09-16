@@ -6,12 +6,12 @@ A domain organizes work. A life module represents a specific part of one user's 
 
 For example, a travel request may run in J4 while reading Purpose constraints, calendar knowledge, collaboration contacts, and an approved travel connector. A Maker Garage module may live primarily in J4 while using J2 project planning, J3 safety policy, and J0 device integrations. The user should not have to duplicate those facts inside every domain.
 
-## Stable system agents
+## Stable system roles
 
 | Identifier | Responsibility | User visibility |
 |---|---|---|
 | J0 | Platform administration, permissions, health, integrations, audit, support | Mostly hidden; surfaced in Settings and diagnostics |
-| J5 | Main assistant, router, cross-domain coordinator, synthesis layer | Primary assistant identity |
+| J5 | AI/agent harness: runtime infrastructure for models, agents, memory, tools, workflows, policy, verification, observability, and actions | Primary product runtime; surfaced through the assistant experience |
 
 ## Universal J-domain containers
 
