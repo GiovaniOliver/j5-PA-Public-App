@@ -12,7 +12,7 @@
 4. [Domains and compartments](architecture/02-domains-and-compartments.md)
 5. [Second-brain wiki and agentic knowledge graph](architecture/03-brain-wiki-and-agentic-knowledge-graph.md)
 6. [Adaptive domains and generative dashboards](architecture/04-adaptive-domains-and-generative-dashboards.md)
-7. [J5 Hornet memory and workflow architecture](architecture/05-j5-hornet-memory-and-workflow-architecture.md)
+7. [J5 harness memory and workflow architecture](architecture/05-j5-harness-memory-and-workflow-architecture.md)
 8. [Privacy and tenant isolation](security/01-privacy-and-tenant-isolation.md)
 9. [Clean-room extraction plan](migration/01-clean-room-extraction-plan.md)
 10. [Migration classification matrix](migration/02-migration-classification.md)
