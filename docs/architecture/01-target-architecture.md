@@ -15,7 +15,7 @@ flowchart TD
     E --> F["Verification, audit, memory, and UI revisions"]
 ```
 
-The Brain Wiki, Knowledge Matrix, life model, and hybrid retrieval service supply governed, cited context to this path. They do not bypass J5 routing or policy evaluation.
+The second-brain wiki, Knowledge Matrix, life model, and hybrid retrieval service supply governed, cited context to this path. They do not bypass J5 routing or policy evaluation.
 
 ## Core services
 
