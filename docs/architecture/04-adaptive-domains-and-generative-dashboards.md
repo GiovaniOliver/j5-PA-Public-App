@@ -24,7 +24,7 @@ The reusable lesson is the experience pattern, not the hard-coded implementation
 
 ## Universal domain shells
 
-J0 and J5 remain stable system roles. J1-J4 become stable human-life categories broad enough for most users.
+J0 remains the platform-control agent and J5 remains the AI/agent harness. J1-J4 become stable human-life domain agents broad enough for most users.
 
 | Identifier | Universal responsibility | Example modules |
 |---|---|---|
@@ -33,7 +33,7 @@ J0 and J5 remain stable system roles. J1-J4 become stable human-life categories 
 | J2 | Work, money, and projects | employment, businesses, finances, school, creator work, inventions |
 | J3 | Safety, security, and resilience | privacy, digital security, insurance, emergency plans, risk |
 | J4 | Home, relationships, and lifestyle | household, family, travel, hobbies, garden, vehicles, personal routines |
-| J5 | Orchestration | routing, synthesis, cross-domain planning, and user conversation |
+| J5 | AI/agent harness | runtime orchestration, context and memory, policy, tools, workflow state, verification, observability, actions, and user-facing delivery |
 
 These categories are semantic anchors, not fixed menu contents. A user may choose friendly display labels, but the stable identifiers and routing meaning remain intact.
 
