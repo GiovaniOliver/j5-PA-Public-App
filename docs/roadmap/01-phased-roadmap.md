@@ -6,6 +6,7 @@ Deliverables:
 
 - approved product definition;
 - approved domains and compartments model;
+- approved Brain Wiki, knowledge graph, provenance, and retrieval model;
 - source-component inventory template;
 - threat model and data-classification policy;
 - third-party and license inventory;
@@ -36,18 +37,21 @@ Deliverables:
 - tasks, plans, calendar, notes, and approvals;
 - action receipts and diagnostics.
 
-## Phase 3 — Compartments and memory
+## Phase 3 — Compartments, Brain Wiki, and memory
 
 Deliverables:
 
 - Soul, Purpose, Workflow, Knowledge, Collaboration, and Reflect compartments;
+- wiki spaces, pages, blocks, links, backlinks, revisions, and source citations;
+- source, entity, claim, relation, provenance, ontology, and graph-proposal contracts;
 - memory policy controls;
 - hot, warm, and cold memory lifecycle;
-- cited retrieval with permission filtering;
-- memory correction, export, and deletion;
-- Self-Reflecting proposals that require user acceptance.
+- permission-filtered lexical and vector retrieval;
+- bounded graph traversal and cited retrieval receipts;
+- memory and knowledge correction, export, and deletion;
+- Self-Reflecting and graph proposals that require user acceptance when policy demands it.
 
-IoT Matrix can be modeled in this phase but activated later.
+IoT Matrix can be modeled in this phase but activated later. A native graph-database projection is optional and should follow measured retrieval requirements rather than precede the core model.
 
 ## Phase 4 — Configurable domains and workflows
 
@@ -56,6 +60,7 @@ Deliverables:
 - domain-pack schema and SDK;
 - J1-J4 slot assignment and renaming;
 - starter domain packs;
+- versioned ontology extensions, wiki templates, and domain knowledge views;
 - capability registry and workflow engine;
 - scheduler, retries, cancellation, idempotency, and approvals;
 - domain-specific Command Center projections.
@@ -65,6 +70,7 @@ Deliverables:
 Deliverables:
 
 - connector installation, scopes, revocation, and health;
+- selective, consent-based connector ingestion into the Knowledge Matrix;
 - encrypted provider credentials;
 - subscription, sponsored access, trials, quotas, and metering;
 - plan-aware model and tool budgets;
@@ -87,8 +93,9 @@ Deliverables:
 A sellable release requires:
 
 - no known cross-tenant access path;
-- verified export and deletion;
+- verified export and deletion, including chunks, embeddings, and graph projections;
 - verified connector revocation;
+- source provenance and correction controls for accepted knowledge;
 - tested approval and audit behavior for every write capability;
 - accurate feature-status reporting;
 - usage limits and provider-cost controls;
