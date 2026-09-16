@@ -23,7 +23,7 @@
 ### Accepted for planning
 
 - Build from a clean repository; do not clone the private repository wholesale.
-- Keep J5 as the main orchestrator and J0 as the platform control plane.
+- Define J5 as the AI/agent harness: the runtime infrastructure around models and domain agents for routing, context, memory, tools, workflows, policy, verification, observability, and action execution.
 - Keep J1-J4 as stable universal life-domain shells.
 - Personalize the product through user-owned life modules, workspaces, workflows, and dashboards inside and across those domains.
 - Generate interfaces as validated, versioned specifications constrained to approved components, data bindings, actions, and design recipes.
