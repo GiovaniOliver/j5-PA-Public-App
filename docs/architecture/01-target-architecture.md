@@ -15,6 +15,8 @@ flowchart TD
     E --> F["Verification, audit, and memory"]
 ```
 
+The Brain Wiki, Knowledge Matrix, and hybrid retrieval service supply governed, cited context to this path. They do not bypass J5 routing or policy evaluation.
+
 ## Core services
 
 | Service | Responsibility |
@@ -24,6 +26,9 @@ flowchart TD
 | J5 runtime | Intent classification, direct-skill routing, domain selection, escalation |
 | Domain registry | Installed domain packs, container slots, prompts, capabilities, UI metadata |
 | Compartment service | Structured identity, purpose, knowledge, workflows, reflection, collaboration, and IoT context |
+| Wiki service | Knowledge spaces, pages, blocks, links, backlinks, revisions, browsing, and corrections |
+| Knowledge service | Sources, entities, claims, relations, ontology versions, provenance, and lifecycle |
+| Hybrid retrieval service | Permission-filtered lexical, vector, metadata, and graph retrieval with citations |
 | Memory service | Session memory, durable facts, summaries, retrieval, citations, retention |
 | Capability registry | Skills, tools, connectors, permissions, schemas, readiness, versions |
 | Workflow engine | Plans, steps, schedules, retries, idempotency, state, human approvals |
@@ -40,11 +45,12 @@ flowchart TD
 3. Classify the request using deterministic rules or a small classifier.
 4. Route high-confidence requests directly to a registered skill.
 5. Route broader work to one domain container.
-6. Spawn specialized workers only when the plan needs them.
-7. Evaluate every tool call against permissions, risk, budget, and approval rules.
-8. Execute idempotently and record an action receipt.
-9. Verify the outcome at the depth required by the risk class.
-10. Propose memory updates; persist only information allowed by the user's memory policy.
+6. Retrieve only authorized wiki, vector, and graph context and preserve citations.
+7. Spawn specialized workers only when the plan needs them.
+8. Evaluate every tool call against permissions, risk, budget, and approval rules.
+9. Execute idempotently and record an action receipt.
+10. Verify the outcome at the depth required by the risk class.
+11. Propose memory or graph updates; persist only information allowed by compartment and memory policy.
 
 ## Agent hierarchy
 
@@ -58,7 +64,7 @@ The five-tier model remains available, but it is sparse rather than mandatory:
 | 4 | Manager/coordinator | Used for parallel tasks or repeated operational work |
 | 5 | Task worker | Used for one bounded skill or tool operation |
 
-Simple requests should usually execute through Tier 1 to a direct skill or Tier 2. Full five-tier execution is reserved for complex, cross-domain work.
+Simple requests should usually execute through Tier 1 to a direct skill or Tier 2. Full five-tier execution is reserved for complex, cross-domain work. Knowledge-graph construction workflows are bounded capabilities invoked within this hierarchy, not a second hierarchy.
 
 ## Data ownership hierarchy
 
@@ -89,6 +95,7 @@ packages/
   j5-runtime/
   domain-sdk/
   compartments/
+  knowledge/           # wiki, provenance, graph model, retrieval contracts
   memory/
   capabilities/
   workflows/
