@@ -6,9 +6,13 @@
 
 ## Terminology and identity
 
-J5 is the assistant identity, agent harness, and top-level orchestrator. J0-J4 are the stable system/domain agents. The wiki is a memory method used by J5; it is not named "J5 Wiki" and it is not a second orchestrator.
+J5 is the AI/agent harness: the software infrastructure and runtime scaffolding that wraps around one or more LLMs and agents to turn model reasoning into reliable, multi-step real-world actions. J0-J4 are stable system/domain agents operating inside the harness. The wiki is a memory method used by the harness; it is not named "J5 Wiki" and it is not an orchestrator.
 
 This document uses **second-brain wiki** for the LLM-maintained wiki pattern and **knowledge graph** for typed entities, claims, and relationships.
+
+## Harness boundary
+
+J5 owns model/provider access, context assembly, memory routing, agent and tool invocation, workflow state, capability permissions, approvals, retries, verification, audit, observability, and delivery of responses or actions. Its orchestration engine is one subsystem inside the harness. A user-facing assistant persona is an interface hosted by J5, not the definition of J5 itself.
 
 ## Research basis and attribution
 
@@ -165,7 +169,7 @@ The graph should begin as relational entity/claim/relation tables with indexed a
 
 ## J5 harness and workflow model
 
-J5 is the only top-level orchestrator and the agent harness. J0-J4 are stable domain agents with domain responsibility, policy, and a registry of capabilities and workflows. Managers and workers are spawned for bounded tasks rather than treated as permanently running personalities.
+J5 is the top-level AI/agent harness and runtime boundary. Its orchestration subsystem coordinates J0-J4, which are stable domain agents with domain responsibility, policy, and a registry of capabilities and workflows. Managers and workers are spawned for bounded tasks rather than treated as permanently running personalities.
 
 | Agent | Stable responsibility |
 |---|---|
@@ -174,7 +178,7 @@ J5 is the only top-level orchestrator and the agent harness. J0-J4 are stable do
 | J2 | Work, money, and projects |
 | J3 | Safety, security, and resilience |
 | J4 | Home, relationships, and lifestyle |
-| J5 | User-facing assistant, router, cross-domain coordinator, and final synthesis |
+| J5 | AI/agent harness: models, context, memory, routing, workflows, tools, policy, verification, observability, and action/response delivery |
 
 Life modules such as Maker Garage, caregiving, travel, a specific business, or creator work configure the stable domain agents. They supply tools, workflows, ontology extensions, dashboards, and knowledge views; they do not require additional always-on top-level agents.
 
@@ -310,5 +314,5 @@ The project still needs a separate license and contribution-governance decision.
 - Health, financial, legal, precise-location, identity, and relationship inferences require stricter policy and review.
 - Every consequential answer or action can expose its supporting sources and receipts.
 - Users can inspect, correct, dispute, supersede, export, and delete durable memory.
-- J5 controls cross-domain orchestration; memory subsystems and graph agents never bypass it.
+- J5 is the runtime boundary for cross-domain orchestration; memory subsystems and graph agents never bypass its policy, capability, verification, or audit controls.
 
