@@ -11,10 +11,11 @@
 3. [Target architecture](architecture/01-target-architecture.md)
 4. [Domains and compartments](architecture/02-domains-and-compartments.md)
 5. [Brain Wiki and agentic knowledge graph](architecture/03-brain-wiki-and-agentic-knowledge-graph.md)
-6. [Privacy and tenant isolation](security/01-privacy-and-tenant-isolation.md)
-7. [Clean-room extraction plan](migration/01-clean-room-extraction-plan.md)
-8. [Migration classification matrix](migration/02-migration-classification.md)
-9. [Phased roadmap](roadmap/01-phased-roadmap.md)
+6. [Adaptive domains and generative dashboards](architecture/04-adaptive-domains-and-generative-dashboards.md)
+7. [Privacy and tenant isolation](security/01-privacy-and-tenant-isolation.md)
+8. [Clean-room extraction plan](migration/01-clean-room-extraction-plan.md)
+9. [Migration classification matrix](migration/02-migration-classification.md)
+10. [Phased roadmap](roadmap/01-phased-roadmap.md)
 
 ## Decision status
 
@@ -22,7 +23,9 @@
 
 - Build from a clean repository; do not clone the private repository wholesale.
 - Keep J5 as the main orchestrator and J0 as the platform control plane.
-- Treat J1-J4 as configurable domain containers rather than permanent personal meanings.
+- Keep J1-J4 as stable universal life-domain shells.
+- Personalize the product through user-owned life modules, workspaces, workflows, and dashboards inside and across those domains.
+- Generate interfaces as validated, versioned specifications constrained to approved components, data bindings, actions, and design recipes.
 - Make compartments first-class and user-owned.
 - Use one canonical runtime path for chat, voice, automations, and device commands.
 - Implement the J5 Wiki as the human-readable surface over the governed Knowledge Matrix.
@@ -33,12 +36,13 @@
 ### Still to decide
 
 - Initial hosted product versus self-hosted-first release.
-- Final starter domain packs included in the first release.
+- Final life modules and design recipes included in the first release.
 - Supported model providers and bring-your-own-key policy.
 - Whether family/shared workspaces ship in the MVP.
 - Final pricing and sponsored-access rules.
 - Which device surfaces ship after web and mobile.
 - Whether and when measured graph traversal needs justify a native graph-database projection.
+- When A2UI or AG-UI interoperability becomes a release requirement.
 
 ## Documentation rule
 
