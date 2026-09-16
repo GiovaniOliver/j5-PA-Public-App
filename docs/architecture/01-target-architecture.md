@@ -2,14 +2,20 @@
 
 ## Architectural position
 
-The public version should be a modular platform with one canonical request path. Chat, voice, automations, mobile clients, and devices may enter through different adapters, but they resolve the same user, workspace, policy, context, routing, execution, verification, and memory contracts.
+The public version should be a modular J5 AI/agent harness with one canonical request path. Chat, voice, automations, mobile clients, and devices may enter through different adapters, but they resolve the same user, workspace, policy, context, routing, execution, verification, and memory contracts.
+
+## What J5 is
+
+J5 is the software infrastructure and runtime scaffolding around one or more LLMs and domain agents. It turns model reasoning into reliable, multi-step real-world action by owning model/provider access, context assembly, memory retrieval, agent and tool routing, workflow state, capability permissions, approvals, retries, verification, audit, observability, and response/action delivery.
+
+The orchestrator is a subsystem inside J5; it is not the full definition of J5. Likewise, the user-facing assistant persona and chat experience are surfaces hosted by the harness. J0-J4 are domain agents operating inside the harness.
 
 ## Logical layers
 
 ```mermaid
 flowchart TD
     A["Web, mobile, voice, devices"] --> B["Identity and workspace boundary"]
-    B --> C["J5 router and policy engine"]
+    B --> C["J5 harness runtime"]
     C --> D["Universal domain, life module, or direct skill"]
     D --> E["Workflow and tool execution"]
     E --> F["Verification, audit, memory, and UI revisions"]
@@ -23,7 +29,7 @@ The second-brain wiki, Knowledge Matrix, life model, and hybrid retrieval servic
 |---|---|
 | Identity service | Accounts, sessions, MFA, OAuth identities, devices, recovery |
 | Workspace service | Tenant boundary, memberships, roles, policies, settings |
-| J5 runtime | Intent classification, direct-skill routing, domain selection, escalation |
+| J5 harness runtime | Model/provider access, context assembly, memory, routing, workflow state, policies, tools, verification, audit, observability, and delivery |
 | Domain registry | Stable J0-J5 definitions, routing contracts, and display metadata |
 | Life Model service | User roles, responsibilities, places, projects, preferences, and module suggestions |
 | Module registry | Installed life modules, versions, manifests, cross-domain links, and readiness |
@@ -61,7 +67,7 @@ The five-tier model remains available, but it is sparse rather than mandatory:
 
 | Tier | Public role | Activation rule |
 |---|---|---|
-| 1 | J5 orchestrator | Always present as routing and synthesis control |
+| 1 | J5 harness | Always present as the runtime boundary; invokes orchestration, policy, memory, agent, workflow, and execution services |
 | 2 | Universal domain container | Used when a request belongs to a life domain or needs domain policy |
 | 3 | Executive/planner | Used for multi-step or multi-worker plans |
 | 4 | Manager/coordinator | Used for parallel tasks or repeated operational work |
