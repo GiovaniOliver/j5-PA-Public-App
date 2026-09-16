@@ -30,7 +30,7 @@ Initial pack catalog:
 - Devices & IoT;
 - Maker & Garage.
 
-A user may rename a domain without changing its internal ID. Packs define capabilities, UI modules, starter workflows, policy rules, and onboarding questions. They must not contain founder-specific content.
+A user may rename a domain without changing its internal ID. Packs define capabilities, UI modules, starter workflows, policy rules, ontology extensions, and onboarding questions. They must not contain founder-specific content.
 
 ## Compartment model
 
@@ -42,14 +42,22 @@ A user may rename a domain without changing its internal ID. Packs define capabi
 | IoT Matrix | Authorized interfaces and devices | phones, watches, displays, sensors, rooms, device permissions |
 | Self-Reflecting Matrix | System learning and improvement proposals | observed friction, proposed preference changes, performance reviews |
 | Collaboration Matrix | People, groups, and external systems involved in work | household members, coworkers, service providers, shared spaces |
-| Knowledge Matrix | User-owned facts, sources, notes, and artifacts | documents, notes, citations, entities, project knowledge |
-| Reflect Compartment | Explicit alignment and review checkpoints | weekly review, goal alignment, memory corrections, policy review |
+| Knowledge Matrix | User-owned facts, sources, notes, artifacts, entities, claims, and relationships | documents, wiki pages, citations, entities, project knowledge |
+| Reflect Compartment | Explicit alignment and review checkpoints | weekly review, goal alignment, memory corrections, graph proposals, policy review |
+
+## Brain Wiki and Knowledge Matrix
+
+The J5 Wiki is the human-readable interface to the Knowledge Matrix. It provides pages, links, backlinks, revisions, search, graph views, and correction tools. It is not a separate silo.
+
+The Knowledge Matrix remains authoritative for sources, entities, claims, relationships, provenance, visibility, retention, and approval state. Domain packs may add ontology extensions, templates, and views, but all underlying knowledge remains subject to workspace and compartment policy.
+
+See [Brain Wiki and agentic knowledge graph](03-brain-wiki-and-agentic-knowledge-graph.md).
 
 ## Reflection distinction
 
-The Self-Reflecting Matrix is continuous and proposal-oriented. It may notice patterns but cannot silently rewrite identity, purpose, or policy.
+The Self-Reflecting Matrix is continuous and proposal-oriented. It may notice patterns but cannot silently rewrite identity, purpose, policy, or accepted knowledge.
 
-The Reflect Compartment is user-visible and checkpoint-oriented. It is where the user accepts, rejects, or edits proposed changes and conducts periodic reviews.
+The Reflect Compartment is user-visible and checkpoint-oriented. It is where the user accepts, rejects, disputes, or edits proposed changes and conducts periodic reviews.
 
 ## Vector Trigger Layer
 
@@ -61,9 +69,10 @@ It may:
 - match events to workflows;
 - identify a possible cross-domain dependency;
 - suggest a reminder or review;
-- route a memory proposal to the correct compartment.
+- route a memory or graph proposal to the correct compartment;
+- combine semantic matches with authorized knowledge-graph relationships.
 
-It must apply access control before retrieval, return source citations, respect retention and sensitivity classes, and never treat embedding similarity as authorization.
+It must apply access control before retrieval, return source citations, respect retention and sensitivity classes, and never treat embedding similarity or graph adjacency as authorization.
 
 ## Memory temperatures
 
@@ -71,10 +80,12 @@ It must apply access control before retrieval, return source citations, respect 
 |---|---|---|
 | Hot | current turn or active task | recent messages, current tool results, temporary plan state |
 | Warm | project, workflow, or recent period | active project summaries, working preferences, unresolved decisions |
-| Cold | durable and user-approved | identity, goals, stable facts, long-term knowledge, audited history |
+| Cold | durable and user-approved | identity, goals, stable claims, long-term knowledge, audited history |
 
 Movement from hot to warm or cold must be controlled by compartment rules and user memory settings.
 
 ## Command Center relationship
 
 The Command Center is a projection over domains and compartments. It is not a separate data silo. Cards and summaries should be generated from authoritative records and link back to their source.
+
+The Wiki provides the deeper browse-and-edit experience for knowledge surfaced by Command Center cards.
