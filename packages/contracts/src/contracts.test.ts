@@ -3,6 +3,8 @@ import {
   ActorContextV1,
   CapabilityManifestV1,
   DomainAgentId,
+  PolicyDecisionV1,
+  RouteDecisionV1,
   WorkflowManifestV1,
 } from './index.js';
 
@@ -69,6 +71,44 @@ describe('J5 harness contract invariants', () => {
       supportsCancellation: true,
       requiresIdempotencyKey: true,
       checkpointPolicy: 'ephemeral',
+    });
+
+    expect(result.success).toBe(false);
+  });
+
+  it('requires usable memory authority for an allowed policy decision', () => {
+    const result = PolicyDecisionV1.safeParse({
+      schemaVersion: '1',
+      id: 'policy-decision-1',
+      effect: 'allow',
+      reasonCodes: ['member-read'],
+      allowedScopes: ['knowledge:read'],
+      allowedMemorySpaces: [],
+      allowedAuthorityClasses: [],
+      sensitivityCeiling: 'private',
+      budget: {
+        schemaVersion: '1',
+        maxContextTokens: 4_000,
+        maxOutputTokens: 1_000,
+        maxRetrievalResults: 10,
+        maxProviderAttempts: 1,
+        maxWallTimeMs: 30_000,
+      },
+    });
+
+    expect(result.success).toBe(false);
+  });
+
+  it('requires exactly one execution target on a route', () => {
+    const result = RouteDecisionV1.safeParse({
+      schemaVersion: '1',
+      id: 'route-1',
+      selectedDomainAgentId: 'j2',
+      targetType: 'capability',
+      capabilityId: 'knowledge.read',
+      workflowId: 'knowledge.refresh',
+      confidence: 0.9,
+      reasonCodes: ['project-question'],
     });
 
     expect(result.success).toBe(false);
