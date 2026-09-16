@@ -1,4 +1,4 @@
-# Brain Wiki and Agentic Knowledge Graph
+# Second-Brain Wiki and Agentic Knowledge Graph
 
 ## Decision
 
@@ -6,7 +6,7 @@ The public J5 brain will use a human-readable wiki backed by a governed Knowledg
 
 These are related layers, not interchangeable names:
 
-1. **J5 Wiki** is the user-facing place to write, browse, organize, link, and correct knowledge.
+1. **second-brain wiki** is the user-facing place to write, browse, organize, link, and correct knowledge.
 2. **Knowledge Matrix** is the authoritative service for user-owned knowledge, claims, sources, and governance.
 3. **Knowledge graph** represents typed entities, claims, and relationships derived from approved sources.
 4. **Hybrid retrieval** combines text, vector, metadata, and graph traversal to supply cited context to J5.
@@ -15,6 +15,10 @@ These are related layers, not interchangeable names:
 The graph is not a second J5 orchestrator. J5 remains the only top-level assistant and invokes graph workflows as governed capabilities.
 
 ## Research basis
+
+Andrej Karpathy's [LLM Wiki idea](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) defines the second-brain pattern: preserve raw sources, then let an LLM incrementally compile and maintain interlinked Markdown knowledge rather than reconstructing the same synthesis from raw chunks for every question. [Astro-Han/karpathy-llm-wiki](https://github.com/Astro-Han/karpathy-llm-wiki) is an unofficial MIT-licensed implementation of that idea; it is not Karpathy's official product repository.
+
+The [original RAG paper](https://arxiv.org/abs/2005.11401) remains the basis for dense external retrieval. J5 uses RAG and the wiki as complementary layers rather than treating either as the complete memory system.
 
 DeepLearning.AI and Neo4j's 2025 course [Agentic Knowledge Graph Construction](https://www.deeplearning.ai/courses/agentic-knowledge-graph-construction/) presents a conversational coordinator with three specialist workflows: structured-data graph construction, unstructured-data graph construction, and GraphRAG retrieval. J5 should adopt this separation of concerns while adding tenant isolation, provenance, approval, deletion, and compartment policies required for a public personal-assistant product.
 
@@ -40,14 +44,14 @@ flowchart TD
 
 | Layer | Responsibility | Not responsible for |
 |---|---|---|
-| J5 Wiki | Pages, blocks, links, revisions, browsing, backlinks, graph views, corrections | Acting as an independent truth store |
+| second-brain wiki | Pages, blocks, links, revisions, browsing, backlinks, graph views, corrections | Acting as an independent truth store |
 | Knowledge Matrix | Authoritative sources, entities, claims, relations, access rules, lifecycle, provenance | Rendering the full user experience |
 | Graph construction workflows | Extracting and proposing entities, claims, links, and ontology extensions | Silently declaring uncertain output to be true |
 | Hybrid retrieval | Keyword, vector, metadata, and relationship retrieval with citations | Bypassing access control or retention policies |
 | Vector Trigger Layer | Matching requests and events to relevant knowledge or workflows | Serving as an authorization layer |
 | Reflect Compartment | Reviewing disputed or consequential proposals | Automatically rewriting identity, purpose, or policy |
 
-## J5 Wiki experience
+## Second-brain wiki experience
 
 The wiki should behave like the visible second brain. A user can:
 
