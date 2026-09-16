@@ -14,7 +14,7 @@ Start with [the documentation index](docs/README.md).
 
 The public product keeps the strongest J5 ideas:
 
-- one central J5 orchestrator;
+- one J5 AI/agent harness that turns model reasoning into governed, observable, multi-step action;
 - configurable domain-agent containers;
 - specialized managers and task workers activated only when needed;
 - identity, purpose, knowledge, workflow, reflection, collaboration, and device compartments;
