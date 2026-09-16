@@ -7,7 +7,7 @@ Deliverables:
 - approved product definition;
 - approved universal domains, life modules, and compartments model;
 - approved declarative dashboard contract, component catalog boundary, and publication policy;
-- approved Brain Wiki, knowledge graph, provenance, and retrieval model;
+- approved second-brain wiki, federated memory, knowledge graph, provenance, and retrieval model;
 - source-component inventory template;
 - threat model and data-classification policy;
 - third-party and license inventory;
@@ -40,7 +40,7 @@ Deliverables:
 - tasks, plans, calendar, notes, and approvals;
 - action receipts and diagnostics.
 
-## Phase 3 — Compartments, Brain Wiki, and memory
+## Phase 3 — Compartments, second-brain wiki, and memory
 
 Deliverables:
 
@@ -70,7 +70,7 @@ Deliverables:
 - draft, preview, publish, revise, compare, rollback, archive, and navigation assignment;
 - responsive web renderer with loading, empty, stale, error, and offline states;
 - dashboard schema, authorization, accessibility, readiness, and visual-regression tests;
-- capability registry and workflow engine;
+- capability registry, workflow manifests, and direct/deterministic/queued/LangGraph execution modes;
 - scheduler, retries, cancellation, idempotency, and approvals;
 - domain- and module-specific Command Center projections.
 
