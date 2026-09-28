@@ -192,6 +192,17 @@ export class HarnessTurnService {
     const proposedActions = modelResult.proposedActions.map((proposal) =>
       ProposedActionV1.parse(proposal),
     );
+    const unauthorizedProposal = proposedActions.find(
+      (proposal) => !domainAgent.allowedCapabilityIds.includes(proposal.capabilityId),
+    );
+    if (unauthorizedProposal) {
+      throw harnessError({
+        code: 'FORBIDDEN',
+        message: `The model proposed capability ${unauthorizedProposal.capabilityId} outside the domain-agent manifest.`,
+        retryable: false,
+        correlationId: context.correlationId,
+      });
+    }
 
     const verification = await this.dependencies.verifier.verify({
       request,
