@@ -208,7 +208,9 @@ export interface WorkflowRuntime {
     context: RequestContext,
     manifest: WorkflowManifest,
     input: TInput,
-    idempotencyKey: string,
+    idempotencyKey?: string,
   ): Promise<{ runId: Identifier; traceId: Identifier }>;
   cancel(context: RequestContext, runId: Identifier): Promise<void>;
 }
+
+export * from "./schemas.js";

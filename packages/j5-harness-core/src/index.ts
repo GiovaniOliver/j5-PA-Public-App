@@ -1,3 +1,14 @@
+import {
+  AgentManifestSchema,
+  CapabilityInvocationCommandSchema,
+  CapabilityManifestSchema,
+  PolicyDecisionSchema,
+  RequestContextSchema,
+  WorkflowStartResultSchema,
+  WorkflowCancelCommandSchema,
+  WorkflowManifestSchema,
+  WorkflowStartCommandSchema,
+} from "@j5/harness-contracts";
 import type {
   AgentManifest,
   CapabilityExecutor,
@@ -5,39 +16,104 @@ import type {
   Identifier,
   PolicyEngine,
   RequestContext,
+  RuntimeValidator,
   WorkflowManifest,
   WorkflowRuntime,
 } from "@j5/harness-contracts";
 
-export class HarnessConfigurationError extends Error {
-  constructor(message: string) {
+export type HarnessErrorCode =
+  | "HARNESS_CONFIGURATION_INVALID"
+  | "REQUEST_CONTEXT_INVALID"
+  | "WORKFLOW_COMMAND_INVALID"
+  | "CAPABILITY_INPUT_INVALID"
+  | "CAPABILITY_OUTPUT_INVALID"
+  | "CAPABILITY_DENIED"
+  | "APPROVAL_REQUIRED"
+  | "POLICY_DECISION_INVALID"
+  | "WORKFLOW_RUNTIME_INVALID";
+
+export class HarnessError extends Error {
+  constructor(readonly code: HarnessErrorCode, message: string) {
     super(message);
+    this.name = "HarnessError";
+  }
+}
+
+export class HarnessConfigurationError extends HarnessError {
+  constructor(message: string) {
+    super("HARNESS_CONFIGURATION_INVALID", message);
     this.name = "HarnessConfigurationError";
   }
 }
 
-export class CapabilityDeniedError extends Error {
-  readonly reasonCode: string;
-
-  constructor(reasonCode: string) {
-    super(`Capability invocation denied by policy: ${reasonCode}`);
-    this.name = "CapabilityDeniedError";
-    this.reasonCode = reasonCode;
+export class RequestContextValidationError extends HarnessError {
+  constructor() {
+    super("REQUEST_CONTEXT_INVALID", "Request context failed validation");
+    this.name = "RequestContextValidationError";
   }
 }
 
-export class ApprovalRequiredError extends Error {
-  readonly reasonCode: string;
+export class WorkflowCommandValidationError extends HarnessError {
+  constructor(message: string) {
+    super("WORKFLOW_COMMAND_INVALID", message);
+    this.name = "WorkflowCommandValidationError";
+  }
+}
 
-  constructor(reasonCode: string) {
-    super(`Capability invocation requires approval: ${reasonCode}`);
+export class CapabilityInputValidationError extends HarnessError {
+  constructor() {
+    super("CAPABILITY_INPUT_INVALID", "Capability input failed validation");
+    this.name = "CapabilityInputValidationError";
+  }
+}
+
+export class CapabilityOutputValidationError extends HarnessError {
+  constructor() {
+    super("CAPABILITY_OUTPUT_INVALID", "Capability output failed validation");
+    this.name = "CapabilityOutputValidationError";
+  }
+}
+
+export class PolicyDecisionValidationError extends HarnessError {
+  constructor() {
+    super("POLICY_DECISION_INVALID", "Policy adapter returned an invalid decision");
+    this.name = "PolicyDecisionValidationError";
+  }
+}
+
+export class WorkflowRuntimeValidationError extends HarnessError {
+  constructor() {
+    super("WORKFLOW_RUNTIME_INVALID", "Workflow runtime returned an invalid start result");
+    this.name = "WorkflowRuntimeValidationError";
+  }
+}
+
+export class CapabilityDeniedError extends HarnessError {
+  constructor(readonly reasonCode: string) {
+    super("CAPABILITY_DENIED", `Capability invocation denied by policy: ${reasonCode}`);
+    this.name = "CapabilityDeniedError";
+  }
+}
+
+export class ApprovalRequiredError extends HarnessError {
+  constructor(readonly reasonCode: string) {
+    super("APPROVAL_REQUIRED", `Capability invocation requires approval: ${reasonCode}`);
     this.name = "ApprovalRequiredError";
-    this.reasonCode = reasonCode;
+  }
+}
+
+function parseRequestContext(context: RequestContext): RequestContext {
+  try {
+    return RequestContextSchema.parse(context);
+  } catch {
+    throw new RequestContextValidationError();
   }
 }
 
 export interface RegisteredCapability {
   manifest: CapabilityManifest;
+  inputValidator: RuntimeValidator;
+  outputValidator: RuntimeValidator;
   executor: CapabilityExecutor;
 }
 
@@ -45,7 +121,13 @@ export class AgentRegistry {
   private readonly agents = new Map<Identifier, AgentManifest>();
 
   constructor(manifests: readonly AgentManifest[]) {
-    for (const manifest of manifests) {
+    for (const candidate of manifests) {
+      let manifest: AgentManifest;
+      try {
+        manifest = AgentManifestSchema.parse(candidate);
+      } catch {
+        throw new HarnessConfigurationError("Agent manifest failed validation");
+      }
       if (!manifest.id.trim() || !manifest.version.trim()) {
         throw new HarnessConfigurationError("Agent manifests require an ID and version");
       }
@@ -73,10 +155,27 @@ export class CapabilityRegistry {
   private readonly capabilities = new Map<Identifier, RegisteredCapability>();
 
   constructor(entries: readonly RegisteredCapability[]) {
-    for (const entry of entries) {
+    for (const candidate of entries) {
+      let manifest: CapabilityManifest;
+      try {
+        manifest = CapabilityManifestSchema.parse(candidate.manifest);
+      } catch {
+        throw new HarnessConfigurationError("Capability manifest failed validation");
+      }
+      const entry = { ...candidate, manifest };
       const capabilityId = entry.manifest.id;
       if (!capabilityId.trim() || !entry.manifest.version.trim()) {
         throw new HarnessConfigurationError("Capability manifests require an ID and version");
+      }
+      if (entry.inputValidator.schemaId !== manifest.inputSchema) {
+        throw new HarnessConfigurationError(
+          `Input validator ${entry.inputValidator.schemaId} does not match ${manifest.inputSchema}`,
+        );
+      }
+      if (entry.outputValidator.schemaId !== manifest.outputSchema) {
+        throw new HarnessConfigurationError(
+          `Output validator ${entry.outputValidator.schemaId} does not match ${manifest.outputSchema}`,
+        );
       }
       if (this.capabilities.has(capabilityId)) {
         throw new HarnessConfigurationError(`Duplicate capability manifest: ${capabilityId}`);
@@ -100,15 +199,27 @@ export class CapabilityRegistry {
   }
 }
 
+export interface RegisteredWorkflow {
+  manifest: WorkflowManifest;
+  inputValidator: RuntimeValidator;
+  outputValidator: RuntimeValidator;
+}
+
 export class WorkflowRegistry {
-  private readonly workflows = new Map<Identifier, WorkflowManifest>();
+  private readonly workflows = new Map<Identifier, RegisteredWorkflow>();
 
   constructor(
-    manifests: readonly WorkflowManifest[],
+    entries: readonly RegisteredWorkflow[],
     agents: AgentRegistry,
     capabilities: CapabilityRegistry,
   ) {
-    for (const manifest of manifests) {
+    for (const candidate of entries) {
+      let manifest: WorkflowManifest;
+      try {
+        manifest = WorkflowManifestSchema.parse(candidate.manifest);
+      } catch {
+        throw new HarnessConfigurationError("Workflow manifest failed validation");
+      }
       if (!manifest.id.trim() || !manifest.version.trim()) {
         throw new HarnessConfigurationError("Workflow manifests require an ID and version");
       }
@@ -125,6 +236,16 @@ export class WorkflowRegistry {
       ) {
         throw new HarnessConfigurationError(`Workflow limits are invalid: ${manifest.id}`);
       }
+      if (candidate.inputValidator.schemaId !== manifest.inputSchema) {
+        throw new HarnessConfigurationError(
+          `Workflow input validator ${candidate.inputValidator.schemaId} does not match ${manifest.inputSchema}`,
+        );
+      }
+      if (candidate.outputValidator.schemaId !== manifest.outputSchema) {
+        throw new HarnessConfigurationError(
+          `Workflow output validator ${candidate.outputValidator.schemaId} does not match ${manifest.outputSchema}`,
+        );
+      }
       for (const capabilityId of manifest.allowedCapabilityIds) {
         const { manifest: capability } = capabilities.get(capabilityId);
         if (!owner.capabilityIds.includes(capabilityId)) {
@@ -138,16 +259,16 @@ export class WorkflowRegistry {
           );
         }
       }
-      this.workflows.set(manifest.id, manifest);
+      this.workflows.set(manifest.id, { ...candidate, manifest });
     }
   }
 
-  get(workflowId: Identifier): WorkflowManifest {
-    const manifest = this.workflows.get(workflowId);
-    if (!manifest) {
+  get(workflowId: Identifier): RegisteredWorkflow {
+    const workflow = this.workflows.get(workflowId);
+    if (!workflow) {
       throw new HarnessConfigurationError(`Workflow manifest is not registered: ${workflowId}`);
     }
-    return manifest;
+    return workflow;
   }
 }
 
@@ -162,18 +283,39 @@ export interface HarnessCoreDependencies {
 export class HarnessCore {
   constructor(private readonly dependencies: HarnessCoreDependencies) {}
 
-  async invokeCapability<TInput, TOutput>(
+  async invokeCapability(
     context: RequestContext,
     capabilityId: Identifier,
-    input: TInput,
-  ): Promise<TOutput> {
-    const { manifest, executor } = this.dependencies.capabilities.get(capabilityId);
-    const decision = await this.dependencies.policy.authorizeCapability(
-      context,
-      manifest,
-      input,
-    );
+    input: unknown,
+  ): Promise<unknown> {
+    const validatedContext = parseRequestContext(context);
+    let command: { capabilityId: Identifier; input: unknown; idempotencyKey?: string | undefined };
+    try {
+      command = CapabilityInvocationCommandSchema.parse({ capabilityId, input });
+    } catch {
+      throw new CapabilityInputValidationError();
+    }
 
+    const { manifest, inputValidator, outputValidator, executor } =
+      this.dependencies.capabilities.get(command.capabilityId);
+    let validatedInput: unknown;
+    try {
+      validatedInput = inputValidator.parse(command.input);
+    } catch {
+      throw new CapabilityInputValidationError();
+    }
+
+    const rawDecision = await this.dependencies.policy.authorizeCapability(
+      validatedContext,
+      manifest,
+      validatedInput,
+    );
+    let decision;
+    try {
+      decision = PolicyDecisionSchema.parse(rawDecision);
+    } catch {
+      throw new PolicyDecisionValidationError();
+    }
     if (decision.approvalRequired) {
       throw new ApprovalRequiredError(decision.reasonCode);
     }
@@ -181,31 +323,65 @@ export class HarnessCore {
       throw new CapabilityDeniedError(decision.reasonCode);
     }
 
-    return executor.execute<TInput, TOutput>(context, manifest, input);
+    const output = await executor.execute<unknown, unknown>(
+      validatedContext,
+      manifest,
+      validatedInput,
+    );
+    try {
+      return outputValidator.parse(output);
+    } catch {
+      throw new CapabilityOutputValidationError();
+    }
   }
 
-  startWorkflow<TInput>(
+  startWorkflow(
     context: RequestContext,
     workflowId: Identifier,
-    input: TInput,
-    idempotencyKey: string,
-  ): Promise<{ runId: Identifier; traceId: Identifier }> {
-    const manifest = this.dependencies.workflows.get(workflowId);
-    if (manifest.idempotencyRequired && idempotencyKey.trim().length === 0) {
-      throw new HarnessConfigurationError(
-        `Workflow ${workflowId} requires a non-empty idempotency key`,
+    input: unknown,
+    idempotencyKey?: string,
+  ): Promise<{ runId: Identifier; traceId: string }> {
+    const validatedContext = parseRequestContext(context);
+    let command: { workflowId: Identifier; input: unknown; idempotencyKey?: string | undefined };
+    try {
+      command = WorkflowStartCommandSchema.parse({ workflowId, input, idempotencyKey });
+    } catch {
+      throw new WorkflowCommandValidationError("Workflow command failed validation");
+    }
+
+    const { manifest, inputValidator } = this.dependencies.workflows.get(command.workflowId);
+    if (manifest.idempotencyRequired && !command.idempotencyKey) {
+      throw new WorkflowCommandValidationError(
+        `Workflow ${command.workflowId} requires an idempotency key`,
       );
     }
 
-    return this.dependencies.workflowRuntime.start(
-      context,
-      manifest,
-      input,
-      idempotencyKey,
-    );
+    let validatedInput: unknown;
+    try {
+      validatedInput = inputValidator.parse(command.input);
+    } catch {
+      throw new WorkflowCommandValidationError("Workflow input failed validation");
+    }
+
+    return this.dependencies.workflowRuntime
+      .start(validatedContext, manifest, validatedInput, command.idempotencyKey)
+      .then((result) => {
+        try {
+          return WorkflowStartResultSchema.parse(result);
+        } catch {
+          throw new WorkflowRuntimeValidationError();
+        }
+      });
   }
 
   cancelWorkflow(context: RequestContext, runId: Identifier): Promise<void> {
-    return this.dependencies.workflowRuntime.cancel(context, runId);
+    const validatedContext = parseRequestContext(context);
+    let command: { runId: Identifier };
+    try {
+      command = WorkflowCancelCommandSchema.parse({ runId });
+    } catch {
+      throw new WorkflowCommandValidationError("Workflow cancellation failed validation");
+    }
+    return this.dependencies.workflowRuntime.cancel(validatedContext, command.runId);
   }
 }

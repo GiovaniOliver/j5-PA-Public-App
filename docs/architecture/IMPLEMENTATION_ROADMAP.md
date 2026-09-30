@@ -20,12 +20,16 @@ and integrations remain in consumer adapters.
 
 ## Stage 1 — Contract hardening
 
-- Add runtime-validated schemas for manifests and all external inputs.
-- Define stable error codes and result/receipt formats.
-- Define schema/version compatibility and package release rules.
-- Add conformance coverage for missing actors, workspace isolation, policy denial,
+- [x] Add runtime-validated schemas for manifests and current contract envelopes. Core
+  validates actor context, manifest registration, capability input/output, policy decisions,
+  workflow commands, and workflow start results. Adapter outputs use the exported schemas.
+- [x] Define stable core error codes and receipt/start-result schemas.
+- [x] Define schema/version compatibility and package release rules in
+  [Contract Versioning](CONTRACT_VERSIONING.md).
+- [ ] Add conformance coverage for missing actors, workspace isolation, policy denial,
   approval-required behavior, missing handlers, idempotency, cancellation, and tracing.
-- Document threat boundaries for adapters and agent-provided input.
+- [x] Document threat boundaries for adapters and agent-provided input in
+  [Threat Boundaries](THREAT_BOUNDARIES.md).
 
 **Exit:** independent adapters can implement the ports and pass the same conformance suite.
 

@@ -48,17 +48,19 @@ silently.
 
 ### `@j5/harness-contracts`
 
-Defines portable TypeScript contracts for actors, requests, manifests, providers, policy,
-capabilities, memory stores, retrieval receipts, and workflow runtimes. It has no runtime
-provider, database, filesystem, or identity defaults.
+Defines portable TypeScript contracts and Zod runtime schemas for actors, requests, manifests,
+providers, policy, capabilities, memory stores, retrieval receipts, and workflow runtimes.
+Public object schemas reject unknown keys. It has no runtime provider, database, filesystem,
+or identity defaults.
 
 ### `@j5/harness-core`
 
 Composes registries and injected ports. At startup it rejects duplicate or incomplete
 registrations and checks workflow references against registered agents and capabilities.
-At execution time it asks policy before invoking a capability and delegates durable workflow
-operations to the configured runtime. The core does not implement database, model, or queue
-behavior.
+At execution time it validates explicit context and command inputs, asks policy before
+invoking a capability, validates capability inputs and outputs, and delegates workflow
+operations to the configured runtime. It verifies that registered validators match manifest
+schema references. The core does not implement database, model, or queue behavior.
 
 ### Future adapter and application packages
 
@@ -153,4 +155,5 @@ IDs, credentials, device configuration, or private repository history belongs in
 The contracts and core packages are early foundations. They do not yet constitute a complete
 production runtime: approval persistence, provider adapters, memory routing, durable workflow
 execution, API, UI, and deployment are roadmap items. See the
-[implementation roadmap](IMPLEMENTATION_ROADMAP.md).
+[implementation roadmap](IMPLEMENTATION_ROADMAP.md) and
+[contract versioning policy](CONTRACT_VERSIONING.md).
