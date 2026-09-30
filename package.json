@@ -1,0 +1,16 @@
+{
+  "name": "j5-pa-public-app",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.30.3",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm --recursive --workspace-concurrency=1 run build",
+    "typecheck": "pnpm --recursive --workspace-concurrency=1 run typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

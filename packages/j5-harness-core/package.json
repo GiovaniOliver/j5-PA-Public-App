@@ -1,0 +1,22 @@
+{
+  "name": "@j5/harness-core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Provider-neutral request and capability orchestration for J5",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@j5/harness-contracts": "workspace:*"
+  }
+}
