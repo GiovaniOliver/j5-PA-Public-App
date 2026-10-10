@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101826" />
+    <meta name="description" content="J5 Public App workspace and task manager demo." />
+    <title>J5 Public App</title>
+    <link rel="stylesheet" href="src/styles.css" />
+    <script type="module" src="src/app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="rail" aria-label="J5 workspaces">
+        <a id="home-link" class="brand" href="#home" aria-label="J5 home"><span class="brand-mark">J5</span><span>J5</span></a>
+        <nav class="workspace-list" id="workspace-list" aria-label="Workspace navigation"></nav>
+        <div class="rail-bottom"><button class="rail-link" data-workspace="integrations">⇄<span>Integrations</span></button><button class="rail-link" data-workspace="settings">⚙<span>Settings</span></button></div>
+      </aside>
+      <aside id="context-panel" class="context-panel" aria-label="Workspace sections">
+        <div class="workspace-heading"><span class="eyebrow">WORKSPACE</span><h1 id="workspace-name">Home</h1></div>
+        <nav id="section-list" class="section-list" aria-label="Sections"></nav>
+        <div class="sidebar-note"><span class="status-dot"></span><span>Public demo · data stays in this browser</span></div>
+      </aside>
+      <main class="main-panel">
+        <header class="topbar"><div class="breadcrumbs"><span>J5</span><span aria-hidden="true">/</span><strong id="breadcrumb-workspace">Home</strong><span aria-hidden="true">/</span><span id="breadcrumb-section">Overview</span></div><div class="topbar-right"><span class="local-badge">LOCAL DEMO</span><button id="menu-toggle" class="menu-toggle" aria-label="Toggle workspaces" aria-expanded="false">☰</button></div></header>
+        <div class="page-content">
+          <div class="page-title-row"><div><p class="eyebrow" id="page-eyebrow">J5 COMMAND</p><h2 id="page-title">Your work, in one place.</h2><p id="page-description" class="lead">A simple workspace shell and task flow, ready for the public J5 build.</p></div><div class="date-chip"><span class="status-dot"></span> Ready to focus</div></div>
+          <nav id="page-tabs" class="page-tabs" aria-label="Page views"></nav>
+          <section id="page-view" aria-live="polite"></section>
+          <footer class="page-footer">J5 Public App <span>•</span> Starter workspace <span>•</span> No account or server connection</footer>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
