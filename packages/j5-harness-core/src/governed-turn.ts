@@ -18,20 +18,62 @@ export interface GovernedTurnResult {
   action?: { capabilityId: Identifier; output: unknown; verifiedBy: "output-schema" };
 }
 
+export interface TurnReceiptSink {
+  record(receipt: {
+    requestId: Identifier;
+    traceId: Identifier;
+    workspaceId: Identifier;
+    capabilityId?: Identifier;
+    outcome: "model_completed" | "action_completed" | "action_failed" | "model_failed";
+    occurredAt: string;
+  }): Promise<void>;
+}
+
 export class GovernedTurnRunner {
-  constructor(private readonly models: ModelTurnRunner, private readonly harness: HarnessCore) {}
+  constructor(
+    private readonly models: ModelTurnRunner,
+    private readonly harness: HarnessCore,
+    private readonly receipts?: TurnReceiptSink,
+  ) {}
 
   async run(context: RequestContext, input: GovernedTurnInput): Promise<GovernedTurnResult> {
     // A provider failure prevents all actions. Action execution is gated by the
     // capability registry, validator and policy engine in HarnessCore.
-    const response = await this.models.complete(context, input.model);
+    const record = async (outcome: "model_completed" | "action_completed" | "action_failed" | "model_failed") => {
+      if (!this.receipts) return;
+      await this.receipts.record({
+        requestId: context.requestId,
+        traceId: context.traceId,
+        workspaceId: context.actor.workspaceId,
+        ...(input.action ? { capabilityId: input.action.capabilityId } : {}),
+        outcome,
+        occurredAt: new Date().toISOString(),
+      });
+    };
+    let response: ModelResponse;
+    try {
+      response = await this.models.complete(context, input.model);
+    } catch (error) {
+      await record("model_failed");
+      throw error;
+    }
     const result: GovernedTurnResult = {
       response,
       requestId: context.requestId,
       traceId: context.traceId,
     };
-    if (!input.action) return result;
-    const output = await this.harness.invokeCapability(context, input.action.capabilityId, input.action.input);
+    if (!input.action) {
+      await record("model_completed");
+      return result;
+    }
+    let output: unknown;
+    try {
+      output = await this.harness.invokeCapability(context, input.action.capabilityId, input.action.input);
+    } catch (error) {
+      await record("action_failed");
+      throw error;
+    }
+    await record("action_completed");
     return {
       ...result,
       action: {
