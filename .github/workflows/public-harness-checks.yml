@@ -20,3 +20,4 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm --filter @j5/harness-core test
+      - run: node --test examples/node-file-receipts.test.mjs
