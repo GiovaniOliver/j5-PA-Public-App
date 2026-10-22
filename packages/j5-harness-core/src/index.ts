@@ -385,3 +385,5 @@ export class HarnessCore {
     return this.dependencies.workflowRuntime.cancel(validatedContext, command.runId);
   }
 }
+
+export { ModelTurnRunner, ModelTurnError } from "./model-turn.js";
