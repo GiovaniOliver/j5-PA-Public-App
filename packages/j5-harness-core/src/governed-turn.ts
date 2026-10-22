@@ -1,5 +1,5 @@
 import type { ModelRequest, ModelResponse, RequestContext, Identifier } from "@j5/harness-contracts";
-import { HarnessCore } from "./index.js";
+import type { HarnessCore } from "./index.js";
 import { ModelTurnRunner } from "./model-turn.js";
 
 /**
