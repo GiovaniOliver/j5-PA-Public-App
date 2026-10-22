@@ -390,3 +390,5 @@ export { ModelTurnRunner, ModelTurnError } from "./model-turn.js";
 
 export { GovernedTurnRunner } from "./governed-turn.js";
 export type { GovernedTurnInput, GovernedTurnResult } from "./governed-turn.js";
+
+export type { TurnReceiptSink } from "./governed-turn.js";
