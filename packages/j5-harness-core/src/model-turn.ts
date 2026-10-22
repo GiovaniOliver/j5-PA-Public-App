@@ -34,7 +34,12 @@ export class ModelTurnRunner {
       throw new ModelTurnError("MODEL_PROVIDER_MISSING", "Configured model provider is not registered");
     }
     // Preserve adapter errors. Never return simulated success or route to another provider.
-    const response = await provider.complete(validatedContext.data, validatedRequest.data);
+    const response = await provider.complete(validatedContext.data, {
+      ...validatedRequest.data,
+      ...(validatedRequest.data.responseFormat === undefined
+        ? {}
+        : { responseFormat: validatedRequest.data.responseFormat }),
+    });
     const validatedResponse = ModelResponseSchema.safeParse(response);
     if (!validatedResponse.success ||
       validatedResponse.data.providerId !== validatedRequest.data.providerId ||
