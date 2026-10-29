@@ -385,3 +385,6 @@ export class HarnessCore {
     return this.dependencies.workflowRuntime.cancel(validatedContext, command.runId);
   }
 }
+
+export { HarnessTurnService, OpenAIChatCompletionsProvider } from "./turn.js";
+export type { TurnReceipt } from "./turn.js";
