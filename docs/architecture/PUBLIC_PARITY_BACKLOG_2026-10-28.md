@@ -17,12 +17,12 @@ The private monorepo has a Fastify/Prisma/PostgreSQL backend, Memory Router, MCP
 - [x] Agent/capability/workflow registries and policy-gated capability call exist.
 - [x] Add first synthetic contract tests for missing context, policy denial/approval and output validation (initial coverage in this branch).
 - [ ] Add complete synthetic conformance suite: tenant/workspace isolation, omitted handler, duplicate registration, workflow idempotency, cancellation, invalid adapter replies, and receipt trace binding.
-- [ ] Introduce `HarnessTurnService` with authenticated actor context, scoped retrieval, provider invocation, capability execution, output verification and typed receipts.
-- [ ] Add provider gateway interface implementation with a **real** opt-in API adapter, timeout, typed errors, cost metering and test fixture; never check credentials into the repo.
-- [ ] Add a runnable API/CLI quickstart: explicit tenant/workspace, model provider, one read tool and one approval-required write example.
+- [ ] Introduce `HarnessTurnService` with authenticated actor context, scoped retrieval, provider invocation, capability execution, output verification and typed receipts. **Partial:** bounded provider call, explicit gated capability and response receipt implemented; scoped retrieval and durable receipt storage not yet implemented.
+- [ ] Add provider gateway interface implementation with a **real** opt-in API adapter, timeout, typed errors, cost metering and test fixture. **Partial:** opt-in OpenAI adapter and timeout/error tests added; metered pricing/cost cap, provider fallback and live credential-based test still pending.
+- [ ] Add a runnable API/CLI quickstart: explicit tenant/workspace, model provider, one read tool and one approval-required write example. **Partial:** real-provider CLI example + safe echo tool added; no server or persisted approval flow.
 - [ ] Add persisted approval requests and a durable job/checkpoint adapter; test restart, duplicate requests, timeout, cancel and recovery.
 - [ ] Adopt repo-wide license/contribution/security policies; review dependencies and transitive license provenance.
-- [ ] Set up CI for install, typecheck, build, synthetic test suite, secret detection and dependency review; disallow passing release checks by silently suppressing failures.
+- [ ] Set up CI for install, typecheck, build, synthetic test suite, secret detection and dependency review. **Partial:** install, typecheck and tests added in public-harness workflow; security scanners and dependency review still pending.
 - [ ] Run release security review: no personal paths/accounts, default-user fallbacks, copied secrets, token files, credentials, live business data or private history.
 - [ ] Publish versioned package/release documentation and a documented compatibility table.
 
@@ -75,3 +75,9 @@ The private monorepo has a Fastify/Prisma/PostgreSQL backend, Memory Router, MCP
 ## Known private gaps not to transplant
 
 - In-memory Automator state; incomplete native long-idle voice checks; only partial live job marketplace verification; private operator defaults and local wiki CLI assumptions; UI stubs and mock fallbacks; historical secret-rotation and CI debt. Investigate and fix them independently before using those paths in a public release.
+
+## Phase 1 implementation increment (2026-10-28)
+
+- Draft PR #6 includes `HarnessTurnService`, `OpenAIChatCompletionsProvider`, a real-model CLI example, and policy/turn conformance tests.
+- GitHub Actions typecheck and test steps passed after a strict-optional-property fix on the pull request branch. This does **not** verify production credentials, actual provider responses, or deployment.
+- The Phase 1 example uses caller-selected permitted capabilities. It does not yet support model-directed tool selection, persisted approval requests or full autonomous agent loops; do not advertise those capabilities for the public package yet.
