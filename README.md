@@ -34,3 +34,10 @@ server, UI, or built-in provider credentials yet.
 
 Start with [the J5 harness architecture](docs/architecture/J5_HARNESS_ARCHITECTURE.md), then
 see the [implementation roadmap](docs/architecture/IMPLEMENTATION_ROADMAP.md).
+
+## Public harness parity and release readiness
+
+The private J5 application is a **reference implementation**, not an artifact to publish directly.
+Follow the [public parity and release backlog](docs/architecture/PUBLIC_PARITY_BACKLOG_2026-10-28.md) to port reviewed, provider-neutral capabilities incrementally. The current public core remains a developer foundation, not a production service.
+
+Run the initial synthetic conformance suite with `pnpm test`. No provider credentials or private database are required for these tests.
