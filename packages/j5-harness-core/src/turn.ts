@@ -108,7 +108,14 @@ export class HarnessTurnService {
       messages,
       maxOutputTokens: input.model.maxOutputTokens ?? 512,
     });
-    const modelResponse = ModelResponseSchema.parse(await this.provider.complete(parsed.data, request));
+    const providerRequest: ModelRequest = {
+      providerId: request.providerId,
+      modelId: request.modelId,
+      messages: request.messages,
+      maxOutputTokens: request.maxOutputTokens,
+      ...(request.responseFormat ? { responseFormat: request.responseFormat } : {}),
+    };
+    const modelResponse = ModelResponseSchema.parse(await this.provider.complete(parsed.data, providerRequest));
     if (modelResponse.providerId !== request.providerId || modelResponse.modelId !== request.modelId) {
       throw new Error("MODEL_IDENTITY_MISMATCH");
     }
