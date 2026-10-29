@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build": "pnpm --recursive --workspace-concurrency=1 run build",
-    "typecheck": "pnpm --recursive --workspace-concurrency=1 run typecheck"
+    "typecheck": "pnpm --recursive --workspace-concurrency=1 run typecheck",
+    "test": "pnpm build && node --test tests/*.test.mjs"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
